@@ -13,9 +13,12 @@ import {
 import { ProfilePortrait } from "@/components/profile-portrait";
 import { SectionHeading } from "@/components/section-heading";
 import { SiteHeader } from "@/components/site-header";
+import { getRecentProjects } from "@/data/github";
 import { education, experience, profile, skillGroups } from "@/data/profile";
 
-export default function Home() {
+export default async function Home() {
+  const recentProjects = await getRecentProjects();
+
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
@@ -199,24 +202,67 @@ export default function Home() {
         <section aria-labelledby="projects-title" className="content-section projects-section" id="projects">
           <div className="site-shell">
             <SectionHeading
-              description="A clear view of what has — and hasn’t — been documented."
+              description="Five public repositories, ordered by their latest push to GitHub."
               eyebrow="Selected work"
               number="04"
               title="Projects"
               titleId="projects-title"
             />
-            <div className="empty-state">
-              <div className="empty-state-icon"><Code2 aria-hidden="true" size={21} /></div>
-              <div>
-                <span className="eyebrow">PROFILE RECORD</span>
-                <h3>No projects listed yet.</h3>
-                <p>Project details weren&apos;t included in the profile provided.</p>
+            {recentProjects.status === "success" && recentProjects.projects.length > 0 ? (
+              <div className="project-grid">
+                {recentProjects.projects.map((project, index) => (
+                  <article className="project-card" key={project.id}>
+                    <a
+                      aria-label={`${project.name} on GitHub (opens in a new tab)`}
+                      className="project-card-link"
+                      href={project.url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <div className="project-card-top">
+                        <span className="project-index">PROJECT / 0{index + 1}</span>
+                        <ArrowUpRight aria-hidden="true" size={16} />
+                      </div>
+                      <h3>{project.name}</h3>
+                      <p>{project.description || "No description provided for this repository."}</p>
+                      <div className="project-card-footer">
+                        {project.language ? <span className="project-language">{project.language}</span> : <span />}
+                        <span className="project-pushed">
+                          Pushed{" "}
+                          <time dateTime={project.pushedAt}>
+                            {new Intl.DateTimeFormat("en", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                              timeZone: "UTC"
+                            }).format(new Date(project.pushedAt))}
+                          </time>
+                        </span>
+                      </div>
+                    </a>
+                  </article>
+                ))}
               </div>
-              <a aria-label="Visit Sayan's GitHub profile" className="empty-state-link" href={profile.github} rel="noreferrer" target="_blank">
-                <Code2 aria-hidden="true" size={18} />
-                <ArrowUpRight aria-hidden="true" size={15} />
-              </a>
-            </div>
+            ) : (
+              <div className={`projects-message${recentProjects.status === "error" ? " is-error" : ""}`}>
+                <Code2 aria-hidden="true" size={20} />
+                <div>
+                  <h3>
+                    {recentProjects.status === "error"
+                      ? "Projects couldn’t be loaded right now."
+                      : "No public projects found."}
+                  </h3>
+                  <p>
+                    {recentProjects.status === "error"
+                      ? "You can still browse the latest repositories directly on GitHub."
+                      : "Visit GitHub to see all of Sayan’s public repositories."}
+                  </p>
+                </div>
+                <a href={profile.github} rel="noreferrer" target="_blank">
+                  View GitHub <ArrowUpRight aria-hidden="true" size={14} />
+                </a>
+              </div>
+            )}
           </div>
         </section>
 

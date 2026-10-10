@@ -1281,6 +1281,136 @@ a:focus-visible {
   opacity: 1;
 }
 
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.project-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
+}
+
+.project-card-link {
+  display: flex;
+  min-height: 208px;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.project-card-top,
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.project-card-top {
+  color: var(--muted);
+}
+
+.project-index {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.project-card h3 {
+  overflow-wrap: anywhere;
+  margin: 28px 0 0;
+  font-family: var(--display-font);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.4px;
+}
+
+.project-card p {
+  margin: 9px 0 22px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.project-card-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.project-language {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+}
+
+.project-language::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+
+.project-pushed {
+  color: var(--muted);
+  font-size: 9px;
+  text-align: right;
+}
+
+.projects-message {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 34px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.projects-message > svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.projects-message h3 {
+  margin: 0;
+  font-family: var(--display-font);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.projects-message p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.projects-message > a {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 10px;
+}
+
+.projects-message > a:hover {
+  color: var(--accent);
+}
+
 .achievements-section {
   padding-top: 100px;
   padding-bottom: 116px;
