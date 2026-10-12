@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { ProfileChatbot } from "@/components/profile-chatbot";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
+          <ProfileChatbot />
         </ThemeProvider>
       </body>
     </html>
